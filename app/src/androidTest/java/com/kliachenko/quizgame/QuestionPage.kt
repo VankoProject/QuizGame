@@ -21,7 +21,7 @@ class QuestionPage {
                 withId(R.id.questionTextView),
                 isAssignableFrom(TextView::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootlayout))
+                withParent(withId(R.id.rootLayout))
             )
         ).check(matches(withText(question)))
     }
