@@ -20,7 +20,7 @@ class ScenarioTest {
         questionPage.clickAnswer(value = "green")
 
         val answeredPage = AnsweredPage()
-        answeredPage.checkVisible()
+        answeredPage.checkVisible() //Unic view - button next
         answeredPage.checkQuestionVisible(question = "What color is christmas tree?")
         answeredPage.checkAnswerCorrect(text = "green")
         answeredPage.checkChoicesNotAvailable(choices = listOf("yellow", "red", "blue"))

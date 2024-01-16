@@ -37,7 +37,8 @@ class QuestionPage {
                 )
             )
             answerView.check(matches((isDisplayed())))
-            answerView.check(matches(ButtonColorMatcher(Color.parseColor("#7A84DA")))
+            answerView.check(matches(ButtonColorMatcher(Color.parseColor("#7A84DA"))))
+
         }
     }
 
