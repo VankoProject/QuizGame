@@ -2,7 +2,10 @@ package com.kliachenko.quizgame
 
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@RunWith(JUnit4::class)
 class QuizViewModelTest {
 
     @Test
@@ -12,23 +15,23 @@ class QuizViewModelTest {
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "A"),
-                ChoiceUiState.Question(text = "B"),
-                ChoiceUiState.Question(text = "C"),
-                ChoiceUiState.Question(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "A"),
+                ButtonChoiceUiState.Question(text = "B"),
+                ButtonChoiceUiState.Question(text = "C"),
+                ButtonChoiceUiState.Question(text = "D"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("A")
+        actual = viewModel.chooseAnswer("A")
         expected = UiState.Answered(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Correct(text = "A"),
-                ChoiceUiState.NotChosen(text = "B"),
-                ChoiceUiState.NotChosen(text = "C"),
-                ChoiceUiState.NotChosen(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Correct(text = "A"),
+                ButtonChoiceUiState.NotChosen(text = "B"),
+                ButtonChoiceUiState.NotChosen(text = "C"),
+                ButtonChoiceUiState.NotChosen(text = "D"),
             )
         )
         assertEquals(expected, actual)
@@ -36,23 +39,23 @@ class QuizViewModelTest {
         actual = viewModel.next()
         expected = UiState.Question(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "E"),
-                ChoiceUiState.Question(text = "F"),
-                ChoiceUiState.Question(text = "G"),
-                ChoiceUiState.Question(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "E"),
+                ButtonChoiceUiState.Question(text = "F"),
+                ButtonChoiceUiState.Question(text = "G"),
+                ButtonChoiceUiState.Question(text = "H"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("G")
+        actual = viewModel.chooseAnswer("G")
         expected = UiState.Last(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.NotChosen(text = "E"),
-                ChoiceUiState.NotChosen(text = "F"),
-                ChoiceUiState.Correct(text = "G"),
-                ChoiceUiState.NotChosen(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.NotChosen(text = "E"),
+                ButtonChoiceUiState.NotChosen(text = "F"),
+                ButtonChoiceUiState.Correct(text = "G"),
+                ButtonChoiceUiState.NotChosen(text = "H"),
             )
         )
         assertEquals(expected, actual)
@@ -69,23 +72,23 @@ class QuizViewModelTest {
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "A"),
-                ChoiceUiState.Question(text = "B"),
-                ChoiceUiState.Question(text = "C"),
-                ChoiceUiState.Question(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "A"),
+                ButtonChoiceUiState.Question(text = "B"),
+                ButtonChoiceUiState.Question(text = "C"),
+                ButtonChoiceUiState.Question(text = "D"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("A")
+        actual = viewModel.chooseAnswer("A")
         expected = UiState.Answered(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Correct(text = "A"),
-                ChoiceUiState.NotChosen(text = "B"),
-                ChoiceUiState.NotChosen(text = "C"),
-                ChoiceUiState.NotChosen(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Correct(text = "A"),
+                ButtonChoiceUiState.NotChosen(text = "B"),
+                ButtonChoiceUiState.NotChosen(text = "C"),
+                ButtonChoiceUiState.NotChosen(text = "D"),
             )
         )
         assertEquals(expected, actual)
@@ -93,23 +96,23 @@ class QuizViewModelTest {
         actual = viewModel.next()
         expected = UiState.Question(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "E"),
-                ChoiceUiState.Question(text = "F"),
-                ChoiceUiState.Question(text = "G"),
-                ChoiceUiState.Question(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "E"),
+                ButtonChoiceUiState.Question(text = "F"),
+                ButtonChoiceUiState.Question(text = "G"),
+                ButtonChoiceUiState.Question(text = "H"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("E")
+        actual = viewModel.chooseAnswer("E")
         expected = UiState.Last(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.InCorrect(text = "E"),
-                ChoiceUiState.NotChosen(text = "F"),
-                ChoiceUiState.Correct(text = "G"),
-                ChoiceUiState.NotChosen(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Incorrect(text = "E"),
+                ButtonChoiceUiState.NotChosen(text = "F"),
+                ButtonChoiceUiState.Correct(text = "G"),
+                ButtonChoiceUiState.NotChosen(text = "H"),
             )
         )
         assertEquals(expected, actual)
@@ -126,23 +129,23 @@ class QuizViewModelTest {
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "A"),
-                ChoiceUiState.Question(text = "B"),
-                ChoiceUiState.Question(text = "C"),
-                ChoiceUiState.Question(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "A"),
+                ButtonChoiceUiState.Question(text = "B"),
+                ButtonChoiceUiState.Question(text = "C"),
+                ButtonChoiceUiState.Question(text = "D"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("D")
+        actual = viewModel.chooseAnswer("D")
         expected = UiState.Answered(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Correct(text = "A"),
-                ChoiceUiState.NotChosen(text = "B"),
-                ChoiceUiState.NotChosen(text = "C"),
-                ChoiceUiState.InCorrect(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Correct(text = "A"),
+                ButtonChoiceUiState.NotChosen(text = "B"),
+                ButtonChoiceUiState.NotChosen(text = "C"),
+                ButtonChoiceUiState.Incorrect(text = "D"),
             )
         )
         assertEquals(expected, actual)
@@ -150,23 +153,23 @@ class QuizViewModelTest {
         actual = viewModel.next()
         expected = UiState.Question(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "E"),
-                ChoiceUiState.Question(text = "F"),
-                ChoiceUiState.Question(text = "G"),
-                ChoiceUiState.Question(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "E"),
+                ButtonChoiceUiState.Question(text = "F"),
+                ButtonChoiceUiState.Question(text = "G"),
+                ButtonChoiceUiState.Question(text = "H"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("E")
+        actual = viewModel.chooseAnswer("E")
         expected = UiState.Last(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.InCorrect(text = "E"),
-                ChoiceUiState.NotChosen(text = "F"),
-                ChoiceUiState.Correct(text = "G"),
-                ChoiceUiState.NotChosen(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Incorrect(text = "E"),
+                ButtonChoiceUiState.NotChosen(text = "F"),
+                ButtonChoiceUiState.Correct(text = "G"),
+                ButtonChoiceUiState.NotChosen(text = "H"),
             )
         )
         assertEquals(expected, actual)
@@ -183,23 +186,23 @@ class QuizViewModelTest {
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "A"),
-                ChoiceUiState.Question(text = "B"),
-                ChoiceUiState.Question(text = "C"),
-                ChoiceUiState.Question(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "A"),
+                ButtonChoiceUiState.Question(text = "B"),
+                ButtonChoiceUiState.Question(text = "C"),
+                ButtonChoiceUiState.Question(text = "D"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("D")
+        actual = viewModel.chooseAnswer("D")
         expected = UiState.Answered(
             question = "question1",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Correct(text = "A"),
-                ChoiceUiState.NotChosen(text = "B"),
-                ChoiceUiState.NotChosen(text = "C"),
-                ChoiceUiState.InCorrect(text = "D"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Correct(text = "A"),
+                ButtonChoiceUiState.NotChosen(text = "B"),
+                ButtonChoiceUiState.NotChosen(text = "C"),
+                ButtonChoiceUiState.Incorrect(text = "D"),
             )
         )
         assertEquals(expected, actual)
@@ -207,23 +210,23 @@ class QuizViewModelTest {
         actual = viewModel.next()
         expected = UiState.Question(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.Question(text = "E"),
-                ChoiceUiState.Question(text = "F"),
-                ChoiceUiState.Question(text = "G"),
-                ChoiceUiState.Question(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.Question(text = "E"),
+                ButtonChoiceUiState.Question(text = "F"),
+                ButtonChoiceUiState.Question(text = "G"),
+                ButtonChoiceUiState.Question(text = "H"),
             )
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.choose("G")
+        actual = viewModel.chooseAnswer("G")
         expected = UiState.Last(
             question = "question2",
-            choices = listOf<ChoiceUiState>(
-                ChoiceUiState.NotChosen(text = "E"),
-                ChoiceUiState.NotChosen(text = "F"),
-                ChoiceUiState.Correct(text = "G"),
-                ChoiceUiState.NotChosen(text = "H"),
+            choices = listOf<ButtonChoiceUiState>(
+                ButtonChoiceUiState.NotChosen(text = "E"),
+                ButtonChoiceUiState.NotChosen(text = "F"),
+                ButtonChoiceUiState.Correct(text = "G"),
+                ButtonChoiceUiState.NotChosen(text = "H"),
             )
         )
         assertEquals(expected, actual)

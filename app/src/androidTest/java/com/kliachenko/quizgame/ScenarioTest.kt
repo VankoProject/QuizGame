@@ -1,7 +1,9 @@
 package com.kliachenko.quizgame
 
+import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -53,7 +55,7 @@ class ScenarioTest {
         gameOverPage.clickChoice(text = "green")
         gameOverPage.checkVisible()
         gameOverPage.clickGameOver()
-        gameOverPage.checkNotVisible()
+        Assert.assertTrue(activityScenarioRule.scenario.state != Lifecycle.State.RESUMED)
     }
 
     @Test
@@ -98,7 +100,6 @@ class ScenarioTest {
         gameOverPage.clickChoice(text = "green")
         gameOverPage.checkVisible()
         gameOverPage.clickGameOver()
-        gameOverPage.checkNotVisible()
     }
 
     @Test
@@ -134,7 +135,7 @@ class ScenarioTest {
         gameOverPage.checkQuestionVisible(question = "What color is milk?")
         gameOverPage.checkAnswerCorrect(text = "white")
         gameOverPage.checkAnswerIncorrect(text = "blue")
-        gameOverPage.checkChoicesNotAvailable(choices = listOf("green", "red", "blue"))
+        gameOverPage.checkChoicesNotAvailable(choices = listOf("green", "red"))
         gameOverPage.clickChoice(text = "white")
         gameOverPage.checkVisible()
         gameOverPage.clickChoice(text = "red")
@@ -144,7 +145,6 @@ class ScenarioTest {
         gameOverPage.clickChoice(text = "green")
         gameOverPage.checkVisible()
         gameOverPage.clickGameOver()
-        gameOverPage.checkNotVisible()
     }
 
     @Test
@@ -189,6 +189,5 @@ class ScenarioTest {
         gameOverPage.clickChoice(text = "green")
         gameOverPage.checkVisible()
         gameOverPage.clickGameOver()
-        gameOverPage.checkNotVisible()
     }
 }

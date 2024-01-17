@@ -10,36 +10,80 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val viewModel: QuizViewModel = QuizViewModel()
+        val viewModel = QuizViewModel(QuizRepository.Base())
 
-        val questionText = findViewById<TextView>(R.id.questionTextView)
+        val questionTextView = findViewById<TextView>(R.id.questionTextView)
         val choiceOneButton = findViewById<Button>(R.id.choiceOneButton)
-        val choiceSecondButton = findViewById<Button>(R.id.choiceSecondButton)
+        val choiceTwoButton = findViewById<Button>(R.id.choiceTwoButton)
         val choiceThreeButton = findViewById<Button>(R.id.choiceThreeButton)
         val choiceFourButton = findViewById<Button>(R.id.choiceFourButton)
         val actionButton = findViewById<Button>(R.id.actionButton)
 
         choiceOneButton.setOnClickListener {
-            val uiState: UiState = viewModel.choose(choiceOneButton.text.toString())
+            val uiState: UiState = viewModel.chooseAnswer(choiceOneButton.text.toString())
+            uiState.show(questionTextView)
+            uiState.show(
+                choiceOneButton,
+                choiceTwoButton,
+                choiceThreeButton,
+                choiceFourButton
+            )
+            uiState.show(actionButton, this)
         }
-
-        choiceSecondButton.setOnClickListener {
-            val uiState: UiState = viewModel.choose(choiceOneButton.text.toString())
+        choiceTwoButton.setOnClickListener {
+            val uiState: UiState = viewModel.chooseAnswer(choiceTwoButton.text.toString())
+            uiState.show(questionTextView)
+            uiState.show(
+                choiceOneButton,
+                choiceTwoButton,
+                choiceThreeButton,
+                choiceFourButton
+            )
+            uiState.show(actionButton, this)
         }
-
         choiceThreeButton.setOnClickListener {
-            val uiState: UiState = viewModel.choose(choiceOneButton.text.toString())
+            val uiState: UiState = viewModel.chooseAnswer(choiceThreeButton.text.toString())
+            uiState.show(questionTextView)
+            uiState.show(
+                choiceOneButton,
+                choiceTwoButton,
+                choiceThreeButton,
+                choiceFourButton
+            )
+            uiState.show(actionButton, this)
         }
-
         choiceFourButton.setOnClickListener {
-            val uiState: UiState = viewModel.choose(choiceOneButton.text.toString())
+            val uiState: UiState = viewModel.chooseAnswer(choiceFourButton.text.toString())
+            uiState.show(questionTextView)
+            uiState.show(
+                choiceOneButton,
+                choiceTwoButton,
+                choiceThreeButton,
+                choiceFourButton
+            )
+            uiState.show(actionButton, this)
         }
-
         actionButton.setOnClickListener {
             val uiState: UiState = viewModel.next()
+            uiState.show(questionTextView)
+            uiState.show(
+                choiceOneButton,
+                choiceTwoButton,
+                choiceThreeButton,
+                choiceFourButton
+            )
+            uiState.show(actionButton, this)
         }
 
         val uiState: UiState = viewModel.init()
+        uiState.show(questionTextView)
+        uiState.show(
+            choiceOneButton,
+            choiceTwoButton,
+            choiceThreeButton,
+            choiceFourButton
+        )
+        uiState.show(actionButton, this)
 
     }
 }

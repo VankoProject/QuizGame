@@ -36,7 +36,6 @@ class AnsweredPage {
             )
         ).check(matches(withText(question)))
     }
-
     fun checkAnswerCorrect(text: String) {
         onView(
             allOf(
@@ -47,6 +46,7 @@ class AnsweredPage {
             )
         ).check(matches(ButtonColorMatcher(Color.parseColor("#80E38A"))))
     }
+
 
     fun checkChoicesNotAvailable(choices: List<String>) {
         choices.forEach { text ->
