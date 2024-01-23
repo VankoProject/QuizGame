@@ -2,6 +2,7 @@ package com.kliachenko.quizgame
 
 class QuizViewModel(private val repository: QuizRepository) {
 
+
     fun init(): UiState {
         val data = repository.questionAndChoices()
         return UiState.Question(data.question, data.choices.map {
