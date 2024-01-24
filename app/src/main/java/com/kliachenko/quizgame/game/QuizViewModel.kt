@@ -1,36 +1,42 @@
-package com.kliachenko.quizgame
+package com.kliachenko.quizgame.game
 
-class QuizViewModel(private val repository: QuizRepository) {
+import androidx.lifecycle.ViewModel
 
+class QuizViewModel(private val repository: GameRepository) : ViewModel() {
 
     fun init(): UiState {
         val data = repository.questionAndChoices()
         return UiState.Question(data.question, data.choices.map {
-            ButtonChoiceUiState.Question(it.value)
+            ChoiceUiState.Question(it.value)
         })
     }
 
-    fun chooseAnswer(text: String): UiState {
+    fun choose(text: String): UiState {
         val data = repository.questionAndChoices()
         val choices = data.choices.map {
             when {
-                it.correct -> ButtonChoiceUiState.Correct(it.value)
-                text == it.value -> ButtonChoiceUiState.Incorrect(it.value)
-                else -> ButtonChoiceUiState.NotChosen(it.value)
+                it.correct -> ChoiceUiState.Correct
+                text == it.value -> ChoiceUiState.Incorrect
+                else -> ChoiceUiState.NotChosen
             }
         }
         return if (repository.isLastQuestion())
-            UiState.Last(data.question, choices)
+            UiState.Last(choices)
         else
-            UiState.Answered(data.question, choices)
+            UiState.Answered(choices)
     }
 
     fun next(): UiState {
         return if (repository.isLastQuestion()) {
+            repository.finishGame()
             UiState.GameOver
         } else {
             repository.next()
             init()
         }
+    }
+
+    fun save() {
+        repository.save()
     }
 }

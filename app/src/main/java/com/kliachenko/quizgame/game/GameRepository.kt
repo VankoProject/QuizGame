@@ -1,8 +1,8 @@
-package com.kliachenko.quizgame
+package com.kliachenko.quizgame.game
 
-import android.content.Context
+import com.kliachenko.quizgame.main.LocalStorage
 
-interface QuizRepository {
+interface GameRepository {
 
     fun next()
 
@@ -12,9 +12,11 @@ interface QuizRepository {
 
     fun finishGame()
 
+    fun save()
+
     class Base(
         private val permanentStorage: PermanentStorage
-    ) : QuizRepository {
+    ) : GameRepository {
 
         private val list = listOf(
             QuestionAndChoices(
@@ -39,7 +41,6 @@ interface QuizRepository {
 
         override fun next() {
             index++
-            permanentStorage.saveIndex(index)
         }
 
         override fun questionAndChoices(): QuestionAndChoices {
@@ -51,7 +52,11 @@ interface QuizRepository {
         }
 
         override fun finishGame() {
-            permanentStorage.saveIndex(0)
+            index = 0
+        }
+
+        override fun save() {
+            permanentStorage.saveIndex(index)
         }
     }
 }
@@ -66,16 +71,15 @@ interface PermanentStorage {
 
     fun saveIndex(index: Int)
 
-    class Base(context: Context) : PermanentStorage {
+    class Base(private val localStorage: LocalStorage) : PermanentStorage {
 
-        private val sharedPref = context.getSharedPreferences("quizGameData", Context.MODE_PRIVATE)
 
         override fun index(): Int {
-            return sharedPref.getInt("index", 0)
+            return localStorage.read("index", 0)
         }
 
         override fun saveIndex(index: Int) {
-            sharedPref.edit().putInt("index", index).apply()
+            localStorage.save(index, "index")
         }
     }
 }
