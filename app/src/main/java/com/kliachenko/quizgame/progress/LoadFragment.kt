@@ -11,6 +11,8 @@ import com.kliachenko.quizgame.ViewModelProviderFactory
 
 class LoadFragment : Fragment(R.layout.fragment_load) {
 
+    private lateinit var viewModel: LoadViewModel
+    private lateinit var uiCallback: UiCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -21,6 +23,11 @@ class LoadFragment : Fragment(R.layout.fragment_load) {
         val errorTextView = view.findViewById<TextView>(R.id.errorTextView)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
+        uiCallback = object : UiCallback {
+            override fun update(loadUiState: LoadUiState) =
+                loadUiState.update(progressBar, errorTextView, retryButton)
+        }
+
         retryButton.setOnClickListener {
             viewModel.load()
         }
@@ -28,5 +35,22 @@ class LoadFragment : Fragment(R.layout.fragment_load) {
         if (savedInstanceState == null) {
             viewModel.load()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.startGettingUpdates(uiCallback)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopGettingUpdates()
+    }
+}
+
+interface UiCallback {
+    fun update(loadUiState: LoadUiState)
+    object Empty : UiCallback {
+        override fun update(loadUiState: LoadUiState) = Unit
     }
 }

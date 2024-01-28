@@ -9,11 +9,13 @@ import com.kliachenko.quizgame.game.PermanentStorage
 import com.kliachenko.quizgame.game.QuizViewModel
 import com.kliachenko.quizgame.main.LocalStorage
 import com.kliachenko.quizgame.main.MainViewModel
+import com.kliachenko.quizgame.main.NavigationObservable
 import com.kliachenko.quizgame.main.ScreenRepository
 import com.kliachenko.quizgame.progress.LoadViewModel
 import com.kliachenko.quizgame.progress.QuizCacheDataSource
 import com.kliachenko.quizgame.progress.QuizRepository
 import com.kliachenko.quizgame.progress.QuizService
+import com.kliachenko.quizgame.progress.UiObservable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -49,13 +51,14 @@ interface ViewModelProviderFactory {
             localStorage
         )
         private val screenRepository = ScreenRepository.Base(localStorage)
+        private val navigation = NavigationObservable.Base()
 
         override fun <T : ViewModel> viewModel(clasz: Class<out T>): T {
             return if (viewModelStore.containsKey(clasz))
                 viewModelStore[clasz] as T
             else {
                 val vm = when (clasz) {
-                    MainViewModel::class.java -> MainViewModel(ScreenRepository.Base(localStorage))
+                    MainViewModel::class.java -> MainViewModel(navigation, screenRepository)
                     LoadViewModel::class.java -> {
                         val logging = HttpLoggingInterceptor()
                         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -68,6 +71,8 @@ interface ViewModelProviderFactory {
                             .addConverterFactory(GsonConverterFactory.create())
                             .build()
                         LoadViewModel(
+                            navigation,
+                            UiObservable.Base(),
                             QuizRepository.Base(
                                 quizCacheDataSource,
                                 screenRepository,

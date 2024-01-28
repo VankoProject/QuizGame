@@ -20,9 +20,8 @@ interface QuizRepository {
                     call: Call<QuizResponse>,
                     response: Response<QuizResponse>,
                 ) {
-                    val result = service.load().execute()
-                    if (result.isSuccessful) {
-                        result.body()?.let {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
                             if (it.responseCode == 0 && it.results.isNotEmpty()) {
                                 quizCacheDataSource.save(it)
                                 screenRepository.saveGameAlreadyStarted()
@@ -32,7 +31,7 @@ interface QuizRepository {
                             }
                         } ?: callback.loadError("empty result body")
                     } else {
-                        callback.loadError(result.errorBody().toString())
+                        callback.loadError(response.errorBody().toString())
                     }
                 }
                 override fun onFailure(call: Call<QuizResponse>, t: Throwable) {

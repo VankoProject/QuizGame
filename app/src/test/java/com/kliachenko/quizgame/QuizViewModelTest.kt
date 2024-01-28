@@ -2,11 +2,12 @@ package com.kliachenko.quizgame
 
 import com.kliachenko.quizgame.game.Choice
 import com.kliachenko.quizgame.game.ChoiceUiState
+import com.kliachenko.quizgame.game.GameRepository
 import com.kliachenko.quizgame.game.QuestionAndChoices
-import com.kliachenko.quizgame.game.QuizRepository
 import com.kliachenko.quizgame.game.QuizViewModel
 import com.kliachenko.quizgame.game.UiState
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -14,9 +15,16 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class QuizViewModelTest {
 
+    private lateinit var viewModel: QuizViewModel
+    @Before
+    fun setup() {
+        viewModel = QuizViewModel(
+            repository = FakeRepository()
+        )
+    }
+
     @Test
     fun correctTwice() {
-        val viewModel = QuizViewModel(repository = FakeRepository())
 
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
@@ -30,7 +38,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("A")
+        actual = viewModel.choose("A")
         expected = UiState.Answered(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.Correct,
@@ -53,7 +61,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("G")
+        actual = viewModel.choose("G")
         expected = UiState.Last(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.NotChosen,
@@ -71,7 +79,6 @@ class QuizViewModelTest {
 
     @Test
     fun correctThenIncorrect() {
-        val viewModel = QuizViewModel(repository = FakeRepository())
 
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
@@ -85,7 +92,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("A")
+        actual = viewModel.choose("A")
         expected = UiState.Answered(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.Correct,
@@ -108,7 +115,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("E")
+        actual = viewModel.choose("E")
         expected = UiState.Last(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.Incorrect,
@@ -126,7 +133,6 @@ class QuizViewModelTest {
 
     @Test
     fun incorrectTwice() {
-        val viewModel = QuizViewModel(repository = FakeRepository())
 
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
@@ -140,7 +146,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("D")
+        actual = viewModel.choose("D")
         expected = UiState.Answered(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.Correct,
@@ -163,7 +169,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("E")
+        actual = viewModel.choose("E")
         expected = UiState.Last(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.Incorrect,
@@ -181,7 +187,6 @@ class QuizViewModelTest {
 
     @Test
     fun incorrectThenCorrect() {
-        val viewModel = QuizViewModel(repository = FakeRepository())
 
         var actual: UiState = viewModel.init()
         var expected: UiState = UiState.Question(
@@ -195,7 +200,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("D")
+        actual = viewModel.choose("D")
         expected = UiState.Answered(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.Correct,
@@ -218,7 +223,7 @@ class QuizViewModelTest {
         )
         assertEquals(expected, actual)
 
-        actual = viewModel.chooseAnswer("G")
+        actual = viewModel.choose("G")
         expected = UiState.Last(
             choices = listOf<ChoiceUiState>(
                 ChoiceUiState.NotChosen,
@@ -235,7 +240,7 @@ class QuizViewModelTest {
     }
 }
 
-private class FakeRepository : QuizRepository {
+private class FakeRepository : GameRepository {
 
     private val list = listOf(
         QuestionAndChoices(
@@ -271,6 +276,6 @@ private class FakeRepository : QuizRepository {
     }
 
     override fun finishGame() {
-        TODO("Not yet implemented")
+
     }
 }

@@ -14,4 +14,8 @@ interface Screen {
                 .commit()
         }
     }
+
+    object Empty : Screen {
+        override fun show(container: Int, supportFragmentManager: FragmentManager)  = Unit
+    }
 }
