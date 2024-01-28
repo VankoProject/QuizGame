@@ -3,6 +3,8 @@ package com.kliachenko.quizgame.main
 import android.content.Context
 
 interface LocalStorage {
+    fun save(value: String, key: String)
+    fun read(key: String, default: String): String
     fun save(value: Int, key: String)
 
     fun read(key: String, default: Int): Int
@@ -14,6 +16,9 @@ interface LocalStorage {
     class Base(context: Context) : LocalStorage {
 
         private val sharedPref = context.getSharedPreferences("quizGameData", Context.MODE_PRIVATE)
+        override fun save(value: String, key: String) {
+            sharedPref.edit().putString(key, value).apply()
+        }
 
         override fun save(value: Int, key: String) {
             sharedPref.edit().putInt(key, value).apply()
@@ -21,6 +26,10 @@ interface LocalStorage {
 
         override fun save(value: Boolean, key: String) {
             sharedPref.edit().putBoolean(key, value).apply()
+        }
+
+        override fun read(key: String, default: String): String {
+            return sharedPref.getString(key, default)?: default
         }
 
         override fun read(key: String, default: Int): Int {

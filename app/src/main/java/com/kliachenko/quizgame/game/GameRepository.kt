@@ -1,6 +1,7 @@
 package com.kliachenko.quizgame.game
 
 import com.kliachenko.quizgame.main.LocalStorage
+import com.kliachenko.quizgame.progress.QuizCacheDataSource
 
 interface GameRepository {
 
@@ -15,27 +16,21 @@ interface GameRepository {
     fun save()
 
     class Base(
-        private val permanentStorage: PermanentStorage
+        quizCacheDataSource: QuizCacheDataSource.Read,
+        private val permanentStorage: PermanentStorage,
     ) : GameRepository {
 
-        private val list = listOf(
-            QuestionAndChoices(
-                question = "What color is christmas tree?", choices = listOf(
-                    Choice(value = "green", correct = true),
-                    Choice(value = "yellow", correct = false),
-                    Choice(value = "red", correct = false),
-                    Choice(value = "blue", correct = false)
-                )
-            ),
-            QuestionAndChoices(
-                question = "What color is milk?", choices = listOf(
-                    Choice(value = "green", correct = false),
-                    Choice(value = "white", correct = true),
-                    Choice(value = "red", correct = false),
-                    Choice(value = "blue", correct = false)
-                )
+        private val list = quizCacheDataSource.read().map {
+            val choices = mutableListOf<Choice>()
+            choices.add(Choice(it.answer, true))
+            choices.addAll(
+                it.incorrectChoices.map { incorrect ->
+                    Choice(incorrect, false)
+                }
             )
-        )
+            choices.shuffle()
+            QuestionAndChoices(it.question, choices)
+        }
 
         private var index = permanentStorage.index()
 

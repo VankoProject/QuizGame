@@ -6,8 +6,18 @@ class LoadViewModel(
     private val repository: QuizRepository
 ) : ViewModel() {
 
-    fun load() {
+    private val callback = object : LoadCallback {
+        override fun loadedSuccessfully() {
 
+        }
+
+        override fun loadError(error: String) {
+
+        }
+
+    }
+    fun load() {
+        repository.loadData(callback)
     }
 
 
