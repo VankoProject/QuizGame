@@ -21,7 +21,7 @@ class AnsweredPage {
                 withId(R.id.actionButton),
                 isAssignableFrom(Button::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootLayout))
+                withParent(withId(R.id.container))
             )
         ).check(matches(withText("next")))
     }
@@ -32,7 +32,7 @@ class AnsweredPage {
                 withId(R.id.questionTextView),
                 isAssignableFrom(TextView::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootLayout))
+                withParent(withId(R.id.container))
             )
         ).check(matches(withText(question)))
     }
@@ -42,7 +42,7 @@ class AnsweredPage {
                 withText(text),
                 isAssignableFrom(Button::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootLayout))
+                withParent(withId(R.id.container))
             )
         ).check(matches(ButtonColorMatcher(Color.parseColor("#80E38A"))))
     }
@@ -55,7 +55,7 @@ class AnsweredPage {
                     withText(text),
                     isAssignableFrom(Button::class.java),
                     withParent(isAssignableFrom(LinearLayout::class.java)),
-                    withParent(withId(R.id.rootLayout))
+                    withParent(withId(R.id.container))
                 )
             ).check(matches(ButtonColorMatcher(Color.parseColor("#6E7292"))))
         }
@@ -67,7 +67,7 @@ class AnsweredPage {
                 withText(text),
                 isAssignableFrom(Button::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootLayout))
+                withParent(withId(R.id.container))
             )
         ).perform(click())
     }
@@ -79,7 +79,7 @@ class AnsweredPage {
                 withText("next"),
                 isAssignableFrom(Button::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootLayout))
+                withParent(withId(R.id.container))
             )
         ).perform(click())
     }
@@ -90,7 +90,7 @@ class AnsweredPage {
                 withId(R.id.actionButton),
                 isAssignableFrom(Button::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootLayout))
+                withParent(withId(R.id.container))
             )
         ).check(matches(not(isDisplayed())))
     }
@@ -101,7 +101,7 @@ class AnsweredPage {
                 withText(text),
                 isAssignableFrom(Button::class.java),
                 withParent(isAssignableFrom(LinearLayout::class.java)),
-                withParent(withId(R.id.rootLayout))
+                withParent(withId(R.id.container))
             )
         ).check(matches(ButtonColorMatcher(Color.parseColor("#E63B3B"))))
     }
