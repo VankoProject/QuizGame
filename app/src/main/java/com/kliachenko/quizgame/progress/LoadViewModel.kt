@@ -1,28 +1,20 @@
 package com.kliachenko.quizgame.progress
 
-import androidx.lifecycle.ViewModel
-import com.kliachenko.quizgame.game.GameScreen
+import com.kliachenko.quizgame.core.BaseViewModel
+import com.kliachenko.quizgame.core.RunAsync
 import com.kliachenko.quizgame.main.NavigationObservable
 
 class LoadViewModel(
     private val navigation: NavigationObservable,
     private val observable: UiObservable,
     private val repository: QuizRepository,
-) : ViewModel() {
-
-    private val callback = object : LoadCallback {
-        override fun loadedSuccessfully() {
-            navigation.navigate(GameScreen)
-        }
-
-        override fun loadError(error: String) {
-            observable.updateUi(LoadUiState.Error(error))
-        }
-    }
-
+    runAsync: RunAsync,
+) : BaseViewModel(runAsync) {
     fun load() {
         observable.updateUi(LoadUiState.Progress)
-        repository.loadData(callback)
+        runAsync({ repository.loadData() }) { loadResult ->
+            loadResult.handle(navigation, observable)
+        }
     }
 
     fun startGettingUpdates(uiCallback: UiCallback) {

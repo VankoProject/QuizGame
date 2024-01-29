@@ -1,8 +1,15 @@
 package com.kliachenko.quizgame.game
 
 import androidx.lifecycle.ViewModel
+import com.kliachenko.quizgame.main.Navigate
+import com.kliachenko.quizgame.main.ScreenRepository
+import com.kliachenko.quizgame.progress.LoadScreen
 
-class QuizViewModel(private val repository: GameRepository) : ViewModel() {
+class QuizViewModel(
+    private val repository: GameRepository,
+    private val screenRepository: ScreenRepository.Save,
+    private val navigate: Navigate,
+) : ViewModel(), FinishGame {
 
     fun init(): UiState {
         val data = repository.questionAndChoices()
@@ -28,7 +35,7 @@ class QuizViewModel(private val repository: GameRepository) : ViewModel() {
 
     fun next(): UiState {
         return if (repository.isLastQuestion()) {
-            repository.finishGame()
+            repository.finish()
             UiState.GameOver
         } else {
             repository.next()
@@ -38,5 +45,11 @@ class QuizViewModel(private val repository: GameRepository) : ViewModel() {
 
     fun save() {
         repository.save()
+    }
+
+    override fun finish() {
+        repository.finish()
+        screenRepository.saveShouldLoadNewGame()
+        navigate.navigate(LoadScreen)
     }
 }

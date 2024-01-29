@@ -3,7 +3,6 @@ package com.kliachenko.quizgame.game
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import com.kliachenko.quizgame.R
 import java.io.Serializable
 
@@ -11,7 +10,7 @@ interface UiState : Serializable {
 
     fun show(questionTextView: TextView)
     fun show(vararg choices: ChoiceButton)
-    fun show(actionButton: ActionButton, activity: FragmentActivity)
+    fun show(actionButton: ActionButton, finish: FinishGame)
 
     data class Question(
         private val question: String,
@@ -27,7 +26,7 @@ interface UiState : Serializable {
             }
         }
 
-        override fun show(actionButton: ActionButton, activity: FragmentActivity) {
+        override fun show(actionButton: ActionButton, finish: FinishGame) {
             actionButton.updateState(View.GONE)
         }
     }
@@ -44,7 +43,7 @@ interface UiState : Serializable {
             }
         }
 
-        override fun show(actionButton: ActionButton, activity: FragmentActivity) = with(actionButton) {
+        override fun show(actionButton: ActionButton, finish: FinishGame) = with(actionButton) {
             visibility = View.VISIBLE
             setText(R.string.next)
         }
@@ -62,7 +61,7 @@ interface UiState : Serializable {
             }
         }
 
-        override fun show(actionButton: ActionButton, activity: FragmentActivity) = with(actionButton) {
+        override fun show(actionButton: ActionButton, finish: FinishGame) = with(actionButton) {
             visibility = View.VISIBLE
             setText(R.string.game_over)
         }
@@ -71,7 +70,7 @@ interface UiState : Serializable {
     object GameOver : UiState {
         override fun show(questionTextView: TextView) = Unit
         override fun show(vararg choices: ChoiceButton) = Unit
-        override fun show(actionButton: ActionButton, activity: FragmentActivity) = activity.finish()
+        override fun show(actionButton: ActionButton, finish: FinishGame) = finish.finish()
     }
 }
 

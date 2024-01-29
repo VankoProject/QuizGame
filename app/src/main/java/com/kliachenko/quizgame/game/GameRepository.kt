@@ -3,15 +3,13 @@ package com.kliachenko.quizgame.game
 import com.kliachenko.quizgame.main.LocalStorage
 import com.kliachenko.quizgame.progress.QuizCacheDataSource
 
-interface GameRepository {
+interface GameRepository : FinishGame{
 
     fun next()
 
     fun questionAndChoices(): QuestionAndChoices
 
     fun isLastQuestion(): Boolean
-
-    fun finishGame()
 
     fun save()
 
@@ -46,12 +44,12 @@ interface GameRepository {
             return index == list.size - 1
         }
 
-        override fun finishGame() {
-            index = 0
-        }
-
         override fun save() {
             permanentStorage.saveIndex(index)
+        }
+
+        override fun finish() {
+            index = 0
         }
     }
 }

@@ -45,7 +45,7 @@ class GameFragment : Fragment() {
                 choiceThreeButton,
                 choiceFourButton
             )
-            uiState.show(actionButton, requireActivity())
+            uiState.show(actionButton, viewModel)
         }
         choiceTwoButton.setOnClickListener {
             val uiState = viewModel.choose(choiceTwoButton.text.toString())
@@ -56,7 +56,7 @@ class GameFragment : Fragment() {
                 choiceThreeButton,
                 choiceFourButton
             )
-            uiState.show(actionButton, requireActivity())
+            uiState.show(actionButton, viewModel)
         }
         choiceThreeButton.setOnClickListener {
             val uiState = viewModel.choose(choiceThreeButton.text.toString())
@@ -67,7 +67,7 @@ class GameFragment : Fragment() {
                 choiceThreeButton,
                 choiceFourButton
             )
-            uiState.show(actionButton, requireActivity())
+            uiState.show(actionButton, viewModel)
         }
         choiceFourButton.setOnClickListener {
             val uiState = viewModel.choose(choiceFourButton.text.toString())
@@ -78,7 +78,7 @@ class GameFragment : Fragment() {
                 choiceThreeButton,
                 choiceFourButton
             )
-            uiState.show(actionButton, requireActivity())
+            uiState.show(actionButton, viewModel)
         }
         actionButton.setOnClickListener {
             val uiState = viewModel.next()
@@ -89,14 +89,14 @@ class GameFragment : Fragment() {
                 choiceThreeButton,
                 choiceFourButton
             )
-            uiState.show(actionButton, requireActivity())
+            uiState.show(actionButton, viewModel)
         }
 
         if (savedInstanceState == null) {
             val uiState = viewModel.init()
             uiState.show(questionTextView)
             uiState.show(choiceOneButton, choiceTwoButton, choiceThreeButton, choiceFourButton)
-            uiState.show(actionButton, requireActivity())
+            uiState.show(actionButton, viewModel)
         }
     }
 
@@ -104,4 +104,8 @@ class GameFragment : Fragment() {
         super.onPause()
         viewModel.save()
     }
+}
+
+interface FinishGame {
+    fun finish()
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.kliachenko.quizgame.core.RunAsync
 import com.kliachenko.quizgame.game.GameRepository
 import com.kliachenko.quizgame.game.PermanentStorage
 import com.kliachenko.quizgame.game.QuizViewModel
@@ -77,7 +78,8 @@ interface ViewModelProviderFactory {
                                 quizCacheDataSource,
                                 screenRepository,
                                 retrofit.create(QuizService::class.java)
-                            )
+                            ),
+                            RunAsync.Base()
                         )
                     }
 
@@ -85,7 +87,9 @@ interface ViewModelProviderFactory {
                         GameRepository.Base(
                             quizCacheDataSource,
                             PermanentStorage.Base(localStorage)
-                        )
+                        ),
+                        screenRepository,
+                        navigation
                     )
 
                     else -> throw IllegalStateException("unknown")
