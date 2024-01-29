@@ -24,8 +24,9 @@ class LoadFragment : Fragment(R.layout.fragment_load) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         uiCallback = object : UiCallback {
-            override fun update(loadUiState: LoadUiState) =
+            override fun update(loadUiState: LoadUiState)  {
                 loadUiState.update(progressBar, errorTextView, retryButton)
+            }
         }
 
         retryButton.setOnClickListener {
@@ -50,6 +51,7 @@ class LoadFragment : Fragment(R.layout.fragment_load) {
 
 interface UiCallback {
     fun update(loadUiState: LoadUiState)
+
     object Empty : UiCallback {
         override fun update(loadUiState: LoadUiState) = Unit
     }

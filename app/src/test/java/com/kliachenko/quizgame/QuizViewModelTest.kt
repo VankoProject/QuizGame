@@ -6,6 +6,9 @@ import com.kliachenko.quizgame.game.GameRepository
 import com.kliachenko.quizgame.game.QuestionAndChoices
 import com.kliachenko.quizgame.game.QuizViewModel
 import com.kliachenko.quizgame.game.UiState
+import com.kliachenko.quizgame.main.Navigate
+import com.kliachenko.quizgame.main.Screen
+import com.kliachenko.quizgame.main.ScreenRepository
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -16,10 +19,22 @@ import org.junit.runners.JUnit4
 class QuizViewModelTest {
 
     private lateinit var viewModel: QuizViewModel
+
     @Before
     fun setup() {
         viewModel = QuizViewModel(
-            repository = FakeRepository()
+            repository = FakeRepository(),
+            object : ScreenRepository.Save {
+                override fun saveGameAlreadyStarted() {
+                }
+
+                override fun saveShouldLoadNewGame() {
+                }
+            },
+            object : Navigate {
+                override fun navigate(screen: Screen) {
+                }
+            }
         )
     }
 
@@ -275,7 +290,11 @@ private class FakeRepository : GameRepository {
         return index == list.size - 1
     }
 
-    override fun finishGame() {
+    override fun save() {
+
+    }
+
+    override fun finish() {
 
     }
 }

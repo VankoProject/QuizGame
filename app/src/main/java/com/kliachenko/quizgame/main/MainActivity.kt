@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
             (application as ViewModelProviderFactory).viewModel(MainViewModel::class.java)
 
         navigate = object : Navigate {
-            override fun navigate(screen: Screen) {
+            override fun navigate(screen: Screen) = runOnUiThread {
                 screen.show(R.id.container, supportFragmentManager)
                 viewModel.notifyObserved()
             }
